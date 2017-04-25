@@ -66,7 +66,7 @@ bot.on('message', message => { // function(message) {
 		else { msg("Le quizz est deja lancé !"); }
 	}
 
-	if (message.content === commands.next) { sendQuestion(); }
+	if (message.content === commands.next) { NextQ(); sendQuestion(); }
 
 	if (message.content.toLowerCase() === questions[nb].answer.toLowerCase() ) { Answer(); }
 
