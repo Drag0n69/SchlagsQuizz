@@ -37,7 +37,7 @@ bot.on('message', message => { // function(message) {
 		to = setTimeout(function () { 
 		to = null; 
 		msg(`Temps écoulé ! la reponse etait ${questions[nb].answer} `); 
-		NextQ(); }, config.timeQ);
+		 }, config.timeQ);
 		}}
 
 	var Answer = function() {
@@ -45,7 +45,7 @@ bot.on('message', message => { // function(message) {
 			clearTimeout(to);
 			to = null;
 			msg(`Tu a gagné ${message.author} !`);
-			NextQ();
+			
 		}}
 
 	if (message.content === commands.quizznb ) { 
