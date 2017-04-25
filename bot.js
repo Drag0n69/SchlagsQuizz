@@ -27,26 +27,26 @@ var commands = {
 
 bot.on('message', message => { // function(message) {
 
-	function msg(texte) { message.channel.sendMessage(texte); }
+	var msg = function(texte) { message.channel.sendMessage(texte); }
+	var NextQ = function() { if ( nb < questions.length ) { nb++ } };
 
-	function sendQuestion() {
-		//nbQ = nb +1 ;
+	var sendQuestion = function() {
 		msg(`Question n°${nb +1} : ${questions[nb].q}`);
+		if (questions[nb].img) { message.channel.sendFile(questions[nb].img); }
 		if (!to) {
 		to = setTimeout(function () { 
 		to = null; 
 		msg(`Temps écoulé ! la reponse etait ${questions[nb].answer} `); 
-		if ( nb < questions.length ) { nb++ } }, config.timeQ);
-			} 
-	}
-	function Answer() {
+		NextQ(); }, config.timeQ);
+		}}
+
+	var Answer = function() {
 		if (to) {
 			clearTimeout(to);
 			to = null;
 			msg(`Tu a gagné ${message.author} !`);
-			if ( nb < questions.length ) { nb++ }
-			}
-	}
+			NextQ();
+		}}
 
 	if (message.content === commands.quizznb ) { 
 		// Nombre de questions
@@ -55,9 +55,7 @@ bot.on('message', message => { // function(message) {
 		msg(`il y a ${i} questions dans le quizz`); 
 	}
 
-	if (message.content === commands.ping && message.author.id === config.adminID ) {
-		msg("pong");
-	}
+	if (message.content === commands.ping && message.author.id === config.adminID ) { msg("pong"); }
 
 	if (message.content === commands.quizz ) {
 		if (!quizzIsOn) { 
@@ -68,13 +66,9 @@ bot.on('message', message => { // function(message) {
 		else { msg("Le quizz est deja lancé !"); }
 	}
 
-	if (message.content === commands.next) {
-		sendQuestion();
-	}
+	if (message.content === commands.next) { sendQuestion(); }
 
-	if (message.content.toLowerCase() === questions[nb].answer.toLowerCase() ) {
-		Answer();
-	}
+	if (message.content.toLowerCase() === questions[nb].answer.toLowerCase() ) { Answer(); }
 
 	if (message.content === commands.stop) {
 		if (quizzIsOn) {
